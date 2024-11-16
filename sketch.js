@@ -24,6 +24,8 @@ function setup() {
     velocity: 2,
     jumpPower: 15,
     fallingSpeed: 2,
+    isOnGround:true,
+    gravity:0.8
   };
   gameControl = {
     stage: 1,
@@ -39,55 +41,77 @@ platform={
 
 function draw() {
   if (gameControl.stage == 1) {
-    game();
-    keyPressed();
+
+    playLevel01()
+  }
+}
+
+function playLevel01(){
+    background(20, 30, 20);
+    drawGround();
+    drawPlatform();
+    drawPlayer();
+    handlePlayerMovement();
     gravity();
-  }
 }
 
-function game() {
-  background(20, 30, 20);
-  noStroke();
-  fill(100, 200, 75);
-  rect(width / 2, 450, width, 100);
-  noFill();
-  stroke(0);
-  strokeWeight(20);
-  rect(width / 2, height / 2, width, height);
+function drawGround(){
+    noStroke();
+    fill(100, 200, 75);
+    rect(width / 2, 450, width, 100);
 
-  // platform
-  stroke(0);
-  strokeWeight(5);
-  fill(255, 120, 0);
-  rect(platform.x, platform.y, platform.width, platform.height);
-
-  //player
-  stroke(0);
-  fill(100, 0, 255);
-  rect(player.x, player.y, player.width, player.height);
-
-
-
+    noFill();
+    stroke(0);
+    strokeWeight(20);
+    rect(width / 2, height / 2, width, height);
+  
 }
 
-function keyPressed() {
-  if (keyCode === LEFT_ARROW) {
-    player.x -= 5;
-  }
-  if (keyCode === RIGHT_ARROW) {
-    player.x += 5;
-  }
 
-  if (keyCode === UP_ARROW) {
-    playerJump = true;
-  }
-
-  if (keyCode === DOWN_ARROW) {
-    playerJump = false;
-  }
+function drawPlatform(){
+    stroke(0);
+    strokeWeight(5);
+    fill(255, 120, 0);
+    rect(platform.x, platform.y, platform.width, platform.height);
 }
+
+function drawPlayer(){
+    stroke(0);
+    fill(100, 0, 255);
+    rect(player.x, player.y, player.width, player.height);
+}
+
+
+function handlePlayerMovement(){
+    if(keyIsDown(LEFT_ARROW)){
+        player.x -= 5;
+    }
+    if(keyIsDown(RIGHT_ARROW)){
+        player.x+=5
+    }
+    if(keyIsDown(UP_ARROW)){
+        playerJump = true;
+        player.isOnGround = false;
+        jumpCounter = 0;
+    }
+    else{
+        playerJump=false;
+    }
+
+    if(player.x >= platform.x-platform.width/2 && player.x <= platform.x + platform.width/2 && player.y >= platform.y - platform.height/2 && player.y  <= platform.y + platform.height/2 && playerJump==false)
+        {
+    
+          player.y = player.y;
+          player.velocity = 0;
+          jumpCounter = 0;
+        }
+}
+
+
+
 
 function gravity() {
+    
   if (player.y >= constraints.groundHeight && !playerJump) {
     player.y = player.y;
   } else {
