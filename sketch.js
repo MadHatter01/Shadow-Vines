@@ -1,9 +1,15 @@
 let player;
 let platforms = [];
+let platform;
 let gameControl;
 let playerJump = false;
 let directionY = 1;
 let jumpCounter = 0;
+const constraints = {
+   
+    groundHeight: 375,
+    skyHeight: 50
+}
 
 function setup() {
   createCanvas(800, 500);
@@ -23,14 +29,12 @@ function setup() {
     stage: 1,
   };
 
-  platforms.push({
-    x: 200,
-    y: 300,
-    width: 200,
-    height: 40,
-    groundHeight: 375,
-    skyHeight: 50,
-  });
+platform={
+    x:200,
+    y:300,
+    width:200,
+    height:40
+}
 }
 
 function draw() {
@@ -55,12 +59,15 @@ function game() {
   stroke(0);
   strokeWeight(5);
   fill(255, 120, 0);
-  rect(platforms[0].x, platforms[0].y, platforms[0].width, platforms[0].height);
+  rect(platform.x, platform.y, platform.width, platform.height);
 
   //player
   stroke(0);
   fill(100, 0, 255);
   rect(player.x, player.y, player.width, player.height);
+
+
+
 }
 
 function keyPressed() {
@@ -81,29 +88,26 @@ function keyPressed() {
 }
 
 function gravity() {
-  if (player.y >= platforms[0].groundHeight && !playerJump)
-    {
+  if (player.y >= constraints.groundHeight && !playerJump) {
     player.y = player.y;
-  } 
-  
-  else 
-  {
+  } else {
     player.y = player.y + directionY * player.velocity;
   }
 
   if (playerJump) {
-
-    if (player.y <= platforms[0].skyHeight || jumpCounter >= player.jumpPower) {
-      player.velocity = player.fallingSpeed;
-    } 
-    
-    else {
+    if (player.y <= constraints.skyHeight || jumpCounter >= player.jumpPower) {
+        if(player.y >= constraints.groundHeight){
+            player.y = constraints.groundHeight
+        }
+        else{
+            player.velocity = player.fallingSpeed;
+        }
+      
+    } else {
       player.velocity = -player.jumpPower;
-      jumpCounter +=1 
+      jumpCounter += 1;
     }
-  }
-  
-  else {
+  } else {
     player.velocity = player.fallingSpeed;
   }
 }
