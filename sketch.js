@@ -7,7 +7,7 @@ let directionY = 1;
 let jumpCounter = 0;
 const constraints = {
    
-    groundHeight: 375,
+    groundHeight: 400,
     skyHeight: 50
 }
 
@@ -47,7 +47,8 @@ function draw() {
 }
 
 function playLevel01(){
-    background(20, 30, 20);
+    // background(20, 30, 20);
+    image(landscape, 0,0, width, height)
     drawGround();
     drawPlatform();
     drawPlayer();
@@ -57,8 +58,9 @@ function playLevel01(){
 
 function drawGround(){
     noStroke();
-    fill(100, 200, 75);
-    rect(width / 2, 450, width, 100);
+   // fill(100, 200, 75);
+    noFill();
+    rect(width / 2, 460, width, 50);
 
     noFill();
     stroke(0);
@@ -71,7 +73,8 @@ function drawGround(){
 function drawPlatform(){
     stroke(0);
     strokeWeight(5);
-    fill(255, 120, 0);
+    fill(44, 44, 84);
+    // fill(200, 120, 0);
     rect(platform.x, platform.y, platform.width, platform.height);
 }
 
@@ -134,4 +137,9 @@ function gravity() {
   } else {
     player.velocity = player.fallingSpeed;
   }
+}
+
+function preload(){
+  landscape = loadImage('backgrounds/background.png');
+  
 }
