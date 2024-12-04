@@ -32,10 +32,10 @@ function setup() {
   };
 
 
-  for(let i=0;i<5;i++){
+  for(let i=0;i<3;i++){
     platforms.push({
-      x:i*200+200,
-      y:random(200,400),
+      x:i*200+400,
+      y:random(100,200),
       width:200,
       height:40,
     })
@@ -126,13 +126,26 @@ function handlePlayerMovement(){
         playerJump=false;
     }
 
+    for(let platform of platforms){
     if(player.x >= platform.x-platform.width/2 && player.x <= platform.x + platform.width/2 && player.y >= platform.y - platform.height/2 && player.y  <= platform.y + platform.height/2 && playerJump==false)
         {
     
           player.y = player.y;
           player.velocity = 0;
           jumpCounter = 0;
+          break;
         }
+      }
+
+      if(platforms[0].x + platforms[0].width/2 <0){
+        let removed = platforms.shift();
+        platforms.push({
+          x:platforms[platforms.length-1].x + random(150,300),
+          y:random(100,200),
+          width:200,
+          height:40
+        })
+      }
 }
 
 
