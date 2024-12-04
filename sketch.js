@@ -31,6 +31,15 @@ function setup() {
     stage: 1,
   };
 
+
+  for(let i=0;i<5;i++){
+    platforms.push({
+      x:i*200+200,
+      y:random(200,400),
+      width:200,
+      height:40,
+    })
+  }
 platform={
     x:200,
     y:300,
@@ -50,7 +59,8 @@ function playLevel01(){
     // background(20, 30, 20);
     image(landscape, 0,0, width, height)
     drawGround();
-    drawPlatform();
+    // drawPlatform();
+    drawPlatforms();
     drawPlayer();
     handlePlayerMovement();
     gravity();
@@ -84,13 +94,28 @@ function drawPlayer(){
     rect(player.x, player.y, player.width, player.height);
 }
 
+function drawPlatforms(){
+  stroke(0);
+  strokeWeight(5);
+  fill(44, 44, 84);
+
+  for(let platform of platforms){
+    rect(platform.x, platform.y, platform.width, platform.height);
+  }
+}
 
 function handlePlayerMovement(){
     if(keyIsDown(LEFT_ARROW)){
         player.x -= 5;
+        for(let platform of platforms){
+          platform.x += 5;
+        }
     }
     if(keyIsDown(RIGHT_ARROW)){
         player.x+=5
+        for(let platform of platforms){
+          platform.x -= 5;
+        }
     }
     if(keyIsDown(UP_ARROW)){
         playerJump = true;
@@ -122,6 +147,7 @@ function gravity() {
   }
 
   if (playerJump) {
+    // jumpSound.play();
     if (player.y <= constraints.skyHeight || jumpCounter >= player.jumpPower) {
         if(player.y >= constraints.groundHeight){
             player.y = constraints.groundHeight
@@ -141,5 +167,6 @@ function gravity() {
 
 function preload(){
   landscape = loadImage('backgrounds/background.png');
+  jumpSound = loadSound('backgrounds/woosh1.mp3');
   
 }
