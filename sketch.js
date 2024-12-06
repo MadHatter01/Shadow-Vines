@@ -17,7 +17,7 @@ function setup() {
   rectMode(CENTER);
   textAlign(CENTER);
   player = {
-    x: 400,
+    x: width/2,
     y: 375,
     width: 30,
     height: 70,
@@ -106,13 +106,13 @@ function drawPlatforms(){
 
 function handlePlayerMovement(){
     if(keyIsDown(LEFT_ARROW)){
-        player.x -= 5;
+        // player.x -= 5;
         for(let platform of platforms){
           platform.x += 5;
         }
     }
     if(keyIsDown(RIGHT_ARROW)){
-        player.x+=5
+        // player.x+=5
         for(let platform of platforms){
           platform.x -= 5;
         }
@@ -138,7 +138,7 @@ function handlePlayerMovement(){
       }
 
       if(platforms[0].x + platforms[0].width/2 <0){
-        let removed = platforms.shift();
+         platforms.shift();
         platforms.push({
           x:platforms[platforms.length-1].x + random(150,300),
           y:random(100,200),
